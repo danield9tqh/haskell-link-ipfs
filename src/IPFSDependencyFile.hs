@@ -1,12 +1,10 @@
 module IPFSDependencyFile (dependencyFile, ImportName, ImportHash, ImportStatement(Import, hash, name)) where
 
-import Text.Parsec.Char (digit, string, satisfy)
-import Text.Parsec (parse, try, ParseError)
+import Text.Parsec.Char (string, satisfy)
 import Text.Parsec.String (Parser)
-import Control.Applicative ((<|>))
-import Text.Parsec.Combinator (count, many1, optional, manyTill, lookAhead)
+import Text.Parsec.Combinator (many1, optional)
 import Text.Parsec.Prim (many)
-import Data.Char (isNumber, isDigit, isAscii, isLetter, isUpper)
+import Data.Char (isNumber, isLetter, isUpper)
 
 type ImportName = String
 type ImportHash = String
