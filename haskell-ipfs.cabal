@@ -1,7 +1,7 @@
 name:                haskell-ipfs
 version:             0.1.0.0
 description:         A quick implementation of a Haskell global namespace using ipfs hashes
-homepage:            https://github.com/githubuser/haskell-ipfs#readme
+homepage:            https://github.com/danield9tqh/haskell-link-ipfs/
 license:             BSD3
 license-file:        LICENSE
 author:              Daniel Cogan
