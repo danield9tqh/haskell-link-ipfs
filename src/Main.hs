@@ -19,9 +19,6 @@ getFileContent path = do
     text <- Turtle.readTextFile path
     return text
 
-regularParse :: Text.Parsec.String.Parser a -> String -> Either ParseError a
-regularParse p = parse p ""
-
 parseWithEof :: Text.Parsec.String.Parser a -> String -> Either ParseError a
 parseWithEof p = parse (p <* Text.Parsec.eof) ""
 
@@ -29,7 +26,7 @@ parseFile :: Turtle.Text -> [ImportStatement]
 parseFile contents = case parseResult of
   Left  _      -> []
   Right result -> result
-  where parseResult = regularParse dependencyFile (unpack contents)
+  where parseResult = parseWithEof dependencyFile (unpack contents)
 
 getHash :: ImportStatement -> ImportHash
 getHash Import { hash=hash } = hash
