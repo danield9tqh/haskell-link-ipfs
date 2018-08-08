@@ -4,7 +4,7 @@ A quick implementation of a Haskell global namespace using IPFS hashes
 
 # Motivation
 
-Programming languages have long had issues with dependency management. The struggle centers around which code is actually being imported. For a particular library, which version of the code is used? Additionally, in the case of similar libraries there may be name-spacing issues. Increasingly, this problem is being solved in many environments by referencing code by its hash value. [IPFS](https://github.com/ipfs/ipfs) provides a very low level implementation of a global file namespace using hashes, so it seems like perfect fit solve this problem. This repo is meant to be a proof of concept of this solution, as well as a learning experience for myself. I don't intend it to be a fully production ready solution, although I hope to eventually work on a project that will be.
+Programming languages have long had issues with dependency management. The struggle centers around which code is actually being imported. For a particular library, which version of the code is used? Additionally, in the case of similar libraries there may be name-spacing issues. Increasingly, this problem is being solved in many environments by referencing code by its hash value. [IPFS](https://github.com/ipfs/ipfs) provides a very low level implementation of a global file namespace using hashes, so it seems like perfect fit solve this problem. This repo is meant to be a proof of concept of this solution, as well as a learning experience for myself. I don't intend it to be a fully featured solution, although I hope to eventually work on a project that will be.
 
 # Usage
 ### Command Line Utility
