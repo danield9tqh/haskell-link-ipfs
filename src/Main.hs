@@ -8,6 +8,8 @@ import qualified Text.Parsec.String
 import Data.Text (unpack, pack, concat, Text)
 import Filesystem.Path.CurrentOS as FS (directory, toText, fromText, replaceExtension, FilePath)
 
+data DependencyFileResult = Error ParseError | Result [ImportStatement]
+
 parser :: Turtle.Parser FS.FilePath
 parser = Turtle.argPath "src" "The source file"
 
@@ -22,10 +24,10 @@ getFileContent path = do
 parseWithEof :: Text.Parsec.String.Parser a -> String -> Either ParseError a
 parseWithEof p = parse (p <* Text.Parsec.eof) ""
 
-parseFile :: Turtle.Text -> [ImportStatement]
+parseFile :: Turtle.Text -> DependencyFileResult
 parseFile contents = case parseResult of
-  Left  _      -> []
-  Right result -> result
+  Left  e      -> Error e
+  Right result -> Result result
   where parseResult = parseWithEof dependencyFile (unpack contents)
 
 getHash :: ImportStatement -> ImportHash
@@ -56,4 +58,7 @@ main = do
     srcFile <- Turtle.options "A utility for linking haskell dependencies from ipfs" parser
     let dependencyFile = (getDependencyFile srcFile)
     dependencyContents <- Turtle.readTextFile dependencyFile
-    mapM_ id (map (ipfsToFile srcFile) (parseFile dependencyContents))
+    let parsedDepFile = parseFile dependencyContents
+    case parsedDepFile of
+      Error e  -> print e
+      Result parsedDepFile -> mapM_ id (map (ipfsToFile srcFile) parsedDepFile)
