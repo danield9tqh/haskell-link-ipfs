@@ -6,6 +6,7 @@ import IPFSDependencyFile (dependencyFile, ImportName, ImportHash, ImportStateme
 import Text.Parsec (ParseError, parse, eof)
 import qualified Text.Parsec.String
 import Data.Text (unpack, pack, concat, Text)
+import Data.Either (fromRight)
 import Filesystem.Path.CurrentOS as FS (directory, toText, fromText, replaceExtension, FilePath)
 
 data DependencyFileResult = Error ParseError | Result [ImportStatement]
@@ -52,7 +53,9 @@ ipfsToFile srcFile importStatement = let
   in
     case destFile of
       Nothing   -> Turtle.echo "incorrect dest file"
-      Just dest -> Turtle.output dest (Turtle.inproc "ipfs" ["cat", pack dependencyHash] Turtle.empty)
+      Just dest -> do
+        print ("getting hash from ipfs " ++ dependencyHash ++ " -> " ++ ((unpack . fromRight "" . toText) dest))
+        Turtle.output dest (Turtle.inproc "ipfs" ["cat", pack dependencyHash] Turtle.empty)
 
 main = do
     srcFile <- Turtle.options "A utility for linking haskell dependencies from ipfs" parser
